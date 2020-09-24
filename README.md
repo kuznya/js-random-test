@@ -1,1 +1,2 @@
-# js-random-test
+## js-random-test
+JS Math.random() test

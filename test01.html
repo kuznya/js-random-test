@@ -1,0 +1,42 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>JS Math.random() test 01</title>
+<script src="js/cDistribution.js"></script>
+<link rel="stylesheet" href="js/console.css">
+</head>
+<div id="app">
+  <textarea id="log"></textarea>
+</div>
+<script src="js/console.js"></script>
+<script>
+  // go!
+  const limit = 10;
+  const n = 1000;
+  const steps = 10;
+
+  const makeStep = (dist, dist_all) => {
+    for (let i = 0; i < n; i++) {
+      const v = Math.floor(Math.random() * limit);
+      dist.reg(v);
+      dist_all.reg(v);
+    }
+    const stats = dist.stats();
+    return stats;
+  };
+
+  const dist = new cDistribution(limit);
+  const dist_all = new cDistribution(limit);
+  const aa = [];
+  for (let step = 1; step < steps+1; step++) {
+    dist.reset();
+    const stats = makeStep(dist, dist_all);
+    aa.push(`step ${step}: ${formatDict(stats)}`)
+  }
+  const stats = dist_all.stats();
+  aa.push(`dict all: ${formatDict(stats)}`);
+
+  putlines(aa);
+
+</script>
+</html>
