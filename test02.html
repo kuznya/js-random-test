@@ -1,15 +1,21 @@
 ﻿<!doctype html>
-<html>
 <head>
 <title>JS Math.random() test 02</title>
 <script src="js/cDistribution.js"></script>
-<link rel="stylesheet" href="js/console.css">
+<link rel="stylesheet" href="js/consoleApp.css">
 </head>
-<div id="app">
-  <textarea id="log" readonly></textarea>
-</div>
-<script src="js/console.js"></script>
+<script src="js/consoleApp.js"></script>
 <script>
+
+  const renderHeader = () => {
+    return (
+      '<div class="header">' +
+      '<button id="btn" onclick="go();">redo</button>' +
+      '</div>'
+    );
+  };
+
+  const app = new ConsoleApp(renderHeader);
   // go!
   const limit = 100;
   const n = 10;
@@ -35,29 +41,34 @@
     return stats;
   };
 
-  const dist = new cDistribution(limit);
-  const dist_all = new cDistribution(limit);
+	const go = () => {
+		noCollisionsCnt = 0;
+		const dist = new cDistribution(limit);
+		const dist_all = new cDistribution(limit);
 
-  const aa = [];
-  for (let step = 0; step < steps; step++) {
-    dist.reset();
-    const map = makeStep(dist, dist_all);
-    aa.push(`${formatNumber(step, 3)}: ${map}`);
-  }
-  console.log('dist all:');
-  const stats = dist_all.stats();
-  console.log(stats);
+		const aa = [];
+		for (let step = 0; step < steps; step++) {
+			dist.reset();
+			const map = makeStep(dist, dist_all);
+			aa.push(`${app.formatNumber(step, 3)}: ${map}`);
+		}
+		console.log('dist all:');
+		const stats = dist_all.stats();
+		console.log(stats);
 
-  const bb = [];
-  bb.push(`noCollisions: ${noCollisionsCnt}/${steps}`);
-  console.log(`noCollisions: ${noCollisionsCnt}/${steps}`);
-  const k = 0.99*0.98*0.97*0.96*0.95*0.94*0.93*0.92*0.91;
-  const noCollisionsTheory = Math.round(k * 1000);
-  bb.push(`in Theory: ${noCollisionsTheory}/${steps}`);
-  console.log(`in Theory: ${noCollisionsTheory}/${steps}`);
-  bb.push('---');
+		const bb = [];
+		bb.push(`noCollisions: ${noCollisionsCnt}/${steps}`);
+		console.log(`noCollisions: ${noCollisionsCnt}/${steps}`);
+		const k = 0.99 * 0.98 * 0.97 * 0.96 * 0.95 * 0.94 * 0.93 * 0.92 * 0.91;
+		const noCollisionsTheory = Math.round(k * 1000);
+		bb.push(`in Theory: ${noCollisionsTheory}/${steps}`);
+		console.log(`in Theory: ${noCollisionsTheory}/${steps}`);
+		bb.push('---');
 
-  putlines(bb.concat(aa));
+		app.log.putlines(bb.concat(aa));
+	};
+
+	go();
 
 </script>
 </html>

@@ -1,15 +1,21 @@
 ﻿<!doctype html>
-<html>
 <head>
 <title>JS Math.random() test 01</title>
 <script src="js/cDistribution.js"></script>
-<link rel="stylesheet" href="js/console.css">
+<link rel="stylesheet" href="js/consoleApp.css">
 </head>
-<div id="app">
-  <textarea id="log" readonly></textarea>
-</div>
-<script src="js/console.js"></script>
+<script src="js/consoleApp.js"></script>
 <script>
+
+  const renderHeader = () => {
+    return (
+      '<div class="header">' +
+      '<button id="btn" onclick="go();">redo</button>' +
+      '</div>'
+    );
+  };
+
+  const app = new ConsoleApp(renderHeader);
   // go!
   const limit = 10;
   const n = 1000;
@@ -25,18 +31,20 @@
     return stats;
   };
 
-  const dist = new cDistribution(limit);
-  const dist_all = new cDistribution(limit);
-  const aa = [];
-  for (let step = 1; step < steps+1; step++) {
-    dist.reset();
-    const stats = makeStep(dist, dist_all);
-    aa.push(`step ${step}: ${formatDict(stats)}`)
-  }
-  const stats = dist_all.stats();
-  aa.push(`dict all: ${formatDict(stats)}`);
+	const go = () => {
+		const dist = new cDistribution(limit);
+		const dist_all = new cDistribution(limit);
+		const aa = [];
+		for (let step = 1; step < steps + 1; step++) {
+			dist.reset();
+			const stats = makeStep(dist, dist_all);
+			aa.push(`step ${step}: ${app.formatDict(stats)}`)
+		}
+		const stats = dist_all.stats();
+		aa.push(`dict all: ${app.formatDict(stats)}`);
 
-  putlines(aa);
+		app.log.putlines(aa);
+	};
 
+	go();
 </script>
-</html>
